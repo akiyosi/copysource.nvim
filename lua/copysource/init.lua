@@ -41,14 +41,21 @@ local function copyWithLineNum(config)
                 line = string.format('%s%s%s %s', padded_line_number, separator, ' ', line)
             end
             table.insert(lines, line)
-	end
+        end
     end
 
     -- Combine lines with newline character
     local text = table.concat(lines, '\n')
 
-    -- Add Markdown code block formatting
-    text = string.format('%s\n%s\n```', language_identifier, text)
+    -- Check if show_filename option is enabled
+    if config and config.show_filename then
+        -- Add Markdown code block formatting
+        local file_name = vim.fn.expand('%:~:.')
+        text = string.format('%s :\n```\n%s\n```', file_name, text)
+    else
+        -- Add Markdown code block formatting without file name
+        text = string.format('```\n%s\n```', text)
+    end
 
     -- Copy to clipboard
     vim.fn.setreg('*', text)

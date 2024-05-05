@@ -7,8 +7,9 @@ copysource.nvim allows you to copy source code with line numbers.
 ``` lua
 function myCopy()
     require('copysource').copyWithLineNum({
-        separator = '| ',
+        separator = '|',
         markdown_format = true,
+        show_filename = true,
     })
 end
 vim.keymap.set("v", " yn", "<CMD>lua myCopy()<CR>", { noremap = true })
